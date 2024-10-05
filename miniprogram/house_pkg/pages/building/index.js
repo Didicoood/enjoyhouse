@@ -21,7 +21,7 @@ Page({
       const size = Math.floor(Math.random()*4) +3
       const type = size > 4 ? '号楼' : '栋'
       this.setData({size, type, point})
-  }
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
