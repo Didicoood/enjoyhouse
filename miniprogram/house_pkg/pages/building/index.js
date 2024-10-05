@@ -5,16 +5,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    size: 0,
+    point: '',
+    type: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
-
+  onLoad({point}) {
+    // 生成假数据
+    this.fake(point)
   },
-
+  fake(point) {
+      const size = Math.floor(Math.random()*4) +3
+      const type = size > 4 ? '号楼' : '栋'
+      this.setData({size, type, point})
+  }
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

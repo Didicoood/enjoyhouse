@@ -5,14 +5,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    noticeDetail: {}
   },
-
+  async getNoticeDetail(id) {
+      const res = await wx.http.get('/announcement/' + id)
+      console.log(res);
+      if(res.data.code !== 10000) return wx.utils.toast()
+    // 渲染数据
+    this.setData({noticeDetail:res.data.data})
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
-
+  onLoad({id}) {
+      this.getNoticeDetail(id)
   },
 
   /**
@@ -62,5 +68,6 @@ Page({
    */
   onShareAppMessage() {
 
-  }
+  },
+
 })
