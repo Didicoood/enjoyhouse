@@ -1,13 +1,13 @@
 <scroll-view enhanced show-scrollbar="{{false}}" scroll-y>
   <view class="form">
     <van-cell-group border="{{false}}" title="报修房屋">
-      <van-cell value="请选择报修房屋" value-class="" bind:click="openHouseLayer" is-link border="{{false}}" />
+      <van-cell value="{{houseName ||'请选择报修房屋'}}" value-class="{{houseName && 'active-cell'}}" bind:click="openHouseLayer" is-link border="{{false}}" />
     </van-cell-group>
     <van-cell-group border="{{false}}" title="报修信息">
       <van-cell
         title-width="100"
         title="维修项目"
-        value-class=""
+        value-class="{{repairItemName && 'active-cell'}}"
         bind:click="openRepairLayer"
         value="请选择维修项目"
         is-link
@@ -34,7 +34,7 @@
       </van-cell>
       <van-cell use-label-slot custom-style="padding-bottom: 0" title="问题附件" border="{{false}}">
         <view class="uploader" slot="label" style="margin-top: 20rpx;">
-          <van-uploader preview-size="100" file-list="{{ attachment }}" />
+          <van-uploader max-count="6"  bind:after-read="uploadPicture" preview-size="100" file-list="{{ attachment }}" />
         </view>
       </van-cell>
     </van-cell-group>
@@ -49,6 +49,7 @@
 <van-action-sheet
   bind:close="closeHouseLayer"
   bind:cancel="closeHouseLayer"
+  bind:select="selectHouseInfo"
   round
   show="{{ houseLayerVisible }}"
   actions="{{ houseList }}"
@@ -59,6 +60,7 @@
 <van-action-sheet
   bind:close="closeRepairLayer"
   bind:cancel="closeRepairLayer"
+  bind:select="selectRepairItemInfo"
   round
   show="{{ repairLayerVisible }}"
   actions="{{ repairItem }}"
@@ -67,5 +69,5 @@
 />
 
 <van-popup bind:close="closeDateLayer" round show="{{ dateLayerVisible }}" position="bottom">
-  <van-datetime-picker type="date" value="{{ currentDate }}" min-date="{{ 1664582400000 }}" />
+  <van-datetime-picker bind:cancel="closeDateLayer"  bind:confirm="selectDateInfo"  type="date" value="{{ currentDate }}" min-date="{{ currentDate }}" />
 </van-popup>
