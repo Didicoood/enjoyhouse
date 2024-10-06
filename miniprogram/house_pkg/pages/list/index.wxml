@@ -1,63 +1,18 @@
-<block wx:if="{{true}}">
+<authorization>
+<block wx:if="{{!isEmpty}}">
   <scroll-view show-scrollbar="{{false}}" enhanced scroll-y>
     <view class="houses">
       <view class="houses-title">房屋信息</view>
       <view class="houses-list">
-        <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-          <van-cell-group bind:tap="goDetail" border="{{false}}">
-            <van-cell size="large" title="北京富力桃园">
-              <text class="tag success">审核通过</text>
+        <van-swipe-cell wx:for="{{houseList}}" wx:key="id" mark:index="{{index}}" mark:id="{{item.id}}" async-close bind:close="swipeClose" right-width="{{ 70 }}">
+          <van-cell-group mark:id="{{item.id}}" bind:tap="goDetail" border="{{false}}">
+            <van-cell size="large" title="{{item.point}}">
+                <text wx:if="{{item.status === 1}}" class="tag info">正在审核</text>
+                <text wx:if="{{item.status === 2}}" class="tag success">审核通过</text>
+                <text wx:if="{{item.status === 3}}" class="tag fail">审核失败</text>
             </van-cell>
-            <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-            <van-cell title="业主" border="{{false}}" value="姜晓峰" />
-          </van-cell-group>
-          <view slot="right">
-            删除
-          </view>
-        </van-swipe-cell>
-        <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-          <van-cell-group bind:tap="goDetail" border="{{false}}">
-            <van-cell size="large" title="北京富力桃园">
-              <text class="tag info">正在审核</text>
-            </van-cell>
-            <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-            <van-cell title="业主" border="{{false}}" value="姜晓峰" />
-          </van-cell-group>
-          <view slot="right">
-            删除
-          </view>
-        </van-swipe-cell>
-        <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-          <van-cell-group bind:tap="goDetail" border="{{false}}">
-            <van-cell size="large" title="北京富力桃园">
-              <text class="tag fail">审核失败</text>
-            </van-cell>
-            <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-            <van-cell title="业主" border="{{false}}" value="姜晓峰" />
-          </van-cell-group>
-          <view slot="right">
-            删除
-          </view>
-        </van-swipe-cell>
-        <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-          <van-cell-group bind:tap="goDetail" border="{{false}}">
-            <van-cell size="large" title="北京富力桃园">
-              <text class="tag fail">审核失败</text>
-            </van-cell>
-            <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-            <van-cell title="业主" border="{{false}}" value="姜晓峰" />
-          </van-cell-group>
-          <view slot="right">
-            删除
-          </view>
-        </van-swipe-cell>
-        <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-          <van-cell-group bind:tap="goDetail" border="{{false}}">
-            <van-cell size="large" title="北京富力桃园">
-              <text class="tag info">正在审核</text>
-            </van-cell>
-            <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-            <van-cell title="业主" border="{{false}}" value="姜晓峰" />
+            <van-cell value="{{item.building}}{{item.room}}" title="房间号" border="{{false}}" />
+            <van-cell title="业主" border="{{false}}" value="{{item.name}}" />
           </van-cell-group>
           <view slot="right">
             删除
@@ -67,7 +22,7 @@
     </view>
   </scroll-view>
 
-  <view class="toolbar" bind:tap="addHouse">
+  <view wx:if="{{houseList.length < 5}}" class="toolbar" bind:tap="addHouse">
     <text class="enjoy-icon icon-add"></text>
     <text class="button-text">添加新房屋</text>
   </view>
@@ -86,3 +41,4 @@
   confirm-button-color="#5591af"
   bind:close="dialogClose"
 />
+</authorization>

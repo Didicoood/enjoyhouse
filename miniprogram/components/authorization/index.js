@@ -32,6 +32,9 @@ Component({
         // 获取当前页面赞
         const currentPage = pageStack.pop()
           if(!isLogin) {
+            //   使用空白函数直接覆盖，达到在token失效的时候不会发出任何请求
+            currentPage.onLoad = () => {}
+            currentPage.onShow = () => {}
               wx.redirectTo({
                 url: '/pages/login/index?redirectURL=/' + currentPage.route,
               })
