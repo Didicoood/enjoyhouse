@@ -38,11 +38,12 @@ Page({
   },
   async submitForm() {
     //   验证表单数据
-    if(!this.validate) return
+    if(!this.validate()) return
     // 提取接口需要的数据
-    const {houseId, repairItemId, mobile, appointment, description, attachment} = this.data
+    const {id, houseId, repairItemId, mobile, appointment, description, attachment} = this.data
     // 调用接口
     const {code} = await wx.http.post('/repair', {
+        id,
         houseId,
         repairItemId,
         mobile,
@@ -57,9 +58,20 @@ Page({
       url: '/repair_pkg/pages/list/index',
     })
   },
-  onLoad() {
+  onLoad({id}) {
     this.getRepairItem()
+    // 判读id是否存在
+    if(id) this.getRepairDetail(id)
   },
+//   获取待修改的保修消息
+async getRepairDetail(id) {
+    // 调用接口
+    const { code, data: repairDetail } = await wx.http.get('/repair/' + id)
+    // 检测是否调用成功
+    if (code !== 10000) return wx.utils.toast()
+    // 渲染数据
+    this.setData({ ...repairDetail })
+},
 //   获取羡慕
 async getRepairItem() {
 // 调用接口
